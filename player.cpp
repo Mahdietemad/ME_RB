@@ -36,6 +36,9 @@ ostream& operator<<(ostream& _os, const Player& _player) {
 
 	if (_player.endOfGame == false) {
 		_os << _player.name << ": " << sideString << " (" << status << ")";
-	};
+	}
+	else {
+		_os << _player.name << ": " << _player.numRubies << " rubies";
+	}
 	return _os;
 }

@@ -6,4 +6,5 @@ int main() {
 	string n = "Reece";
 	Player p = Player(n, s);
 	cout << p;
+	return 0;
 }
