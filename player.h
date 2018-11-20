@@ -1,4 +1,4 @@
-//#include "reward.h"
+#include "reward.h"
 
 #include <iostream>
 #include <string>
@@ -29,7 +29,7 @@ public:
 	void setActive(bool _activity);
 	bool isActive();
 	int getNRubies();
-//	void addReward(const Reward& _reward);
+	void addReward(const Reward& _reward);
 	void setDisplayMode(bool _endOfGame);
 	Side getSide();
 	void setSide(Side _side);

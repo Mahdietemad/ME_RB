@@ -11,11 +11,10 @@ bool Player::isActive() { return activity; }
 int Player::getNRubies() { return numRubies; }
 
 
-// Fix/complete this function ///////////////////////////////////////
-//void Player::addReward(const Reward& _reward) {
-//	return;
-//}
-/////////////////////////////////////////////////////////////////////
+void Player::addReward(const Reward& _reward) {
+	numRubies += _reward.getRubies();
+}
+
 
 void Player::setDisplayMode(bool _endOfGame) { endOfGame = _endOfGame; }
 
