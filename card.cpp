@@ -22,11 +22,19 @@ string Card::getBackgroundChar() {
 	return backgroundChar;
 }
 
-string Card::Row(int row) {
+string Card::operator()(int row) {
 	if (row == 1) {
 		return getBackgroundChar() + getAnimalChar() + getBackgroundChar();
 	}
-	else { // For row == 0 or 2
+	else { // For row == (0 || 2)
 		return getBackgroundChar() + getBackgroundChar() + getBackgroundChar();
 	}
+}
+
+Card::operator FaceAnimal() {
+	return animal;
+}
+
+Card::operator FaceBackground() {
+	return background;
 }

@@ -8,14 +8,17 @@ using std::string;
 #define REWARD
 
 class Reward {
-	int numRubies;
+	//Class Variables
+	const int rubies;
 
+	// Private Class Functions
 	Reward(int _NumRubies);
 
 	friend ostream& operator<<(ostream& _os, const Reward& _reward);
 
 public:
-	int getRubies() const;
+	// Public Class Functions
+	operator int() const;
 };
 
 #endif

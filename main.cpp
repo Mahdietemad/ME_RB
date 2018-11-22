@@ -1,4 +1,6 @@
 #include "player.cpp"
+
+using std::cout;
 //tesing main
 
 int main() {

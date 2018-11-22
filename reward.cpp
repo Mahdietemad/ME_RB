@@ -1,10 +1,12 @@
 #include "reward.h"
 
-Reward::Reward(int _numRubies): numRubies(_numRubies) {}
+Reward::Reward(int _rubies): rubies(_rubies) {}
 
 ostream& operator<<(ostream& _os, const Reward& _reward) {
-	_os << "The reward is " << _reward.numRubies << " rubies!";
+	_os << "The reward is " << _reward << " rubies!";
 	return _os;
 }
 
-int Reward::getRubies() const { return numRubies; }
+Reward::operator int() const{
+	return rubies;
+}
