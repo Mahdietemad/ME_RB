@@ -42,9 +42,9 @@ ostream& operator<<(ostream& _os, const Player& _player) {
 }
 
 // Testing the public functions of player.cpp
-#ifdef TEST_PLAYER {1}
+#define TEST_PLAYER (0)
+#if TEST_PLAYER
 void main() {
 	;
 }
 #endif
-// Currently not sure how to do the above

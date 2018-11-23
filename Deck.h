@@ -6,7 +6,7 @@ using std::shuffle;
 #define DECK
 
 template <class C>
-class Deck<C> {
+class Deck {
 
 public:
 	// Public Class Functions
