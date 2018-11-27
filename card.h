@@ -20,6 +20,9 @@ class Card {
 	string getAnimalChar();
 	string getBackgroundChar();
 
+	// Friend Accesses
+	friend class CardDeck;
+
 public:
 	// Public Class Operators
 	string operator()(int row); // Not sure if this operator should be public or private

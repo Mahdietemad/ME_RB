@@ -27,11 +27,12 @@ ostream& operator<<(ostream& _os, const Player& _player) {
 		activity = "active";
 	}
 	string sideString = "?"; // To check for an error
-	if (_player.side == top) { sideString = "top"; }
-	else if (_player.side == bottom) { sideString = "bottom"; }
-	else if (_player.side == left) { sideString = "left"; }
-	else if (_player.side == right) { sideString = "right"; }
-
+	switch(_player.side) {
+	case top: sideString = "top"; break;
+	case bottom: sideString = "bottom"; break;
+	case left: sideString = "left"; break;
+	case right: sideString = "right"; break;
+	}
 	if (_player.endOfGame == false) {
 		_os << _player.name << ": " << sideString << " (" << activity << ")";
 	}

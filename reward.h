@@ -14,7 +14,9 @@ class Reward {
 	// Private Class Functions
 	Reward(int _NumRubies);
 
+	// Friend Accesses
 	friend ostream& operator<<(ostream& _os, const Reward& _reward);
+	friend class RewardDeck;
 
 public:
 	// Public Class Functions

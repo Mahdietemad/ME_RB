@@ -4,21 +4,25 @@ Card::Card(FaceAnimal _animal, FaceBackground _background): animal(_animal), bac
 
 string Card::getAnimalChar() {
 	string animalChar = "?"; //To check if there was an error
-	if (animal == Crab) { animalChar = "C"; }
-	else if (animal == Penguin) { animalChar = "P"; }
-	else if (animal == Octopus) { animalChar = "O"; }
-	else if (animal == Turtle) { animalChar = "T"; }
-	else if (animal == Walrus) { animalChar = "W"; }
+	switch (animal) {
+	case Crab: animalChar = "C"; break;
+	case Penguin: animalChar = "P"; break;
+	case Octopus: animalChar = "O"; break;
+	case Turtle: animalChar = "T"; break;
+	case Walrus: animalChar = "W"; break;
+	}
 	return animalChar;
 }
 
 string Card::getBackgroundChar() {
 	string backgroundChar = "?"; //To check if there was an error
-	if (background == Red) { backgroundChar = "r"; }
-	else if (background == Green) { backgroundChar = "g"; }
-	else if (background == Purple) { backgroundChar = "p"; }
-	else if (background == Blue) { backgroundChar = "b"; }
-	else if (background == Yellow) { backgroundChar = "y"; }
+	switch (background) {
+	case Red: backgroundChar = "r"; break;
+	case Green: backgroundChar = "g"; break;
+	case Purple: backgroundChar = "p"; break;
+	case Blue: backgroundChar = "b"; break;
+	case Yellow: backgroundChar = "y"; break;
+	}
 	return backgroundChar;
 }
 
