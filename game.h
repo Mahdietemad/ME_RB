@@ -17,10 +17,10 @@ class Game {
 
 public:
 	// Public Class Methods
-	int getRound();
+	int getRound() const;
 	void nextRound();
-	void addPlayer(const Player&);
-	Player& getPlayer(Side);
+	void addPlayer( const Player&);
+	Player& getPlayer(Side) const;
 	const Card* getPreviousCard() const;
 	const Card* getCurrentCard() const;
 	void setCurrentCard(const Card*);

@@ -1,6 +1,6 @@
 #include "game.h"
 
-int Game::getRound() { return roundNum; }
+int Game::getRound() const { return roundNum; }
 
 void Game::nextRound() {
 	board.reset();
@@ -9,14 +9,17 @@ void Game::nextRound() {
 
 void Game::addPlayer(const Player& player) {
 	for (int i = 0; i < 4; i++) {
-		if (players[i]->getName() == player.getName()) {
-			delete players[i];
+		if (players[i] != nullptr) {
+			if (players[i]->getName() == player.getName()) {
+				delete players[i];
+			}
 		}
 	}
-	players[int(player.getSide())] = &player;
+	const Player* player2 = players[int(player.getSide())];
+	player2 = &player;
 }
 
-Player& Game::getPlayer(Side side) { return *players[int(side)]; }
+Player& Game::getPlayer(Side side) const { return *players[int(side)]; }
 
 const Card* Game::getPreviousCard() const { return prevCard; }
 

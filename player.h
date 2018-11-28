@@ -16,7 +16,7 @@ class Player {
 	string name;
 	Side side;
 	int numRubies = 0;
-	bool status = false;
+	bool status = true;
 	bool endOfGame = false;
 
 	// Friend Accesses
