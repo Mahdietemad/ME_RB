@@ -35,7 +35,10 @@ int main() {
                 cin>>name4;
             }
         }
-    }
+	}
+
+
+
     
     
     return 0;
