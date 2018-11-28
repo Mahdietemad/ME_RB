@@ -1,4 +1,4 @@
-#include "CardDeck.h"
+#include "cardDeck.h"
 
 CardDeck::CardDeck() { }
 
@@ -14,6 +14,12 @@ CardDeck& CardDeck::make_CardDeck() {
 	return *cd;
 }
 
+// Testing the public functions of CardDeck.cpp
+#define TEST_CARDDECK (0)
+#if TEST_CARDDECK
+using std::cout;
+using std::endl;
+void main() {
 
-
-
+}
+#endif

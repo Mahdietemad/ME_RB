@@ -1,4 +1,4 @@
-#include "RewardDeck.h"
+#include "rewardDeck.h"
 
 RewardDeck::RewardDeck() {}
 
@@ -14,3 +14,13 @@ RewardDeck& RewardDeck::make_RewardDeck() {
 	}
 	return *rd;
 }
+
+// Testing the public functions of RewardDeck.cpp
+#define TEST_REWARDDECK (0)
+#if TEST_REWARDDECK
+using std::cout;
+using std::endl;
+void main() {
+
+}
+#endif

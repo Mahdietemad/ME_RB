@@ -37,10 +37,6 @@ int main() {
         }
     }
     
-    Side s = top;
-    Player p = Player(n, s);
-    cout << p;
-
     
     return 0;
 }

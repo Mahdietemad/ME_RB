@@ -30,15 +30,30 @@ string Card::operator()(int row) {
 	if (row == 1) {
 		return getBackgroundChar() + getAnimalChar() + getBackgroundChar();
 	}
-	else { // For row == (0 || 2)
+	else if (row == 0 || row == 2) {
 		return getBackgroundChar() + getBackgroundChar() + getBackgroundChar();
 	}
+	else { return "The input int row must be 0, 1, or 2"; } // To check if there is any errors
 }
 
-Card::operator FaceAnimal() {
+Card::operator FaceAnimal() const {
 	return animal;
 }
 
-Card::operator FaceBackground() {
+Card::operator FaceBackground() const {
 	return background;
 }
+
+
+// Testing the public functions of card.cpp
+#define TEST_CARD (1)
+#if TEST_CARD
+using std::cout;
+using std::endl;
+void main() {
+	// Test Card::Card(FaceAnimal _animal, FaceBackground _background)
+	cout << "Testing -> Card::Card(FaceAnimal _animal, FaceBackground _background)" << endl;
+	// Card c = Card(Crab, Red);
+	cout << "The Card constructor is private -> Not sure how to test this" << endl;
+}
+#endif

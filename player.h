@@ -19,18 +19,19 @@ class Player {
 	bool status = false;
 	bool endOfGame = false;
 
+	// Friend Accesses
 	friend ostream& operator<<(ostream& _os, const Player& _player);
 
 public:
-	// Public Class Functions
+	// Public Class Methods
 	Player(string _name, Side _side);
-	string getName();
+	string getName() const;
 	void setActive(bool _activity);
 	bool isActive();
 	int getNRubies();
 	void addReward(const Reward& _reward);
 	void setDisplayMode(bool _endOfGame);
-	Side getSide();
+	Side getSide() const;
 	void setSide(Side _side);
 	
 };

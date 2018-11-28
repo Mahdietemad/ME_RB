@@ -1,4 +1,4 @@
-#include "Deck.h"
+#include "deck.h"
 #include "card.h"
 
 #ifndef CARDDECK

@@ -26,8 +26,8 @@ class Card {
 public:
 	// Public Class Operators
 	string operator()(int row); // Not sure if this operator should be public or private
-	operator FaceAnimal();
-	operator FaceBackground();
+	operator FaceAnimal() const;
+	operator FaceBackground() const;
 };
 
 #endif
