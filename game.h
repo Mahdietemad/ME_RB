@@ -9,6 +9,7 @@ class Game {
 	Board board;
 	int roundNum = 0;
 	Player* players[4] = { nullptr };
+	Player currPlayer;
 	Card const* prevCard = nullptr;
 	Card const* currCard = nullptr;
 	
