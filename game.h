@@ -1,6 +1,8 @@
 #include "board.h"
 #include "player.h"
 
+using std::endl;
+
 #ifndef GAME
 #define GAME
 
@@ -8,8 +10,8 @@ class Game {
 	// Private Class Variables
 	Board board;
 	int roundNum = 0;
-	Player* players[4] = { nullptr };
-	Player currPlayer;
+	vector<Player*> players;
+	Player* currPlayer = nullptr;
 	Card const* prevCard = nullptr;
 	Card const* currCard = nullptr;
 	
@@ -18,6 +20,7 @@ class Game {
 
 public:
 	// Public Class Methods
+	Game();
 	int getRound() const;
 	void nextRound();
 	void addPlayer( const Player&);

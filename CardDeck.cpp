@@ -1,17 +1,21 @@
 #include "cardDeck.h"
 
-CardDeck::CardDeck() { }
+CardDeck* CardDeck::cardDeck = nullptr;
+
+CardDeck::CardDeck() {}
 
 CardDeck& CardDeck::make_CardDeck() {
-	CardDeck* cd = new CardDeck();
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
-			Card* c = new Card(FaceAnimal(i), FaceBackground(j));
-			cd->deck.push_back(c);
+	if (cardDeck == nullptr) {
+		cardDeck = new CardDeck();
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				Card* card = new Card(FaceAnimal(i), FaceBackground(j));
+				cardDeck->deck.push_back(card);
+			}
 		}
+		cardDeck->shuffle();
+		return *cardDeck;
 	}
-	cd->shuffle();
-	return *cd;
 }
 
 // Testing the public functions of CardDeck.cpp

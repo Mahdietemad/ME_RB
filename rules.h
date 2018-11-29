@@ -5,11 +5,9 @@
 #define RULES
 
 class Rules {
-	bool ExpertRules;
-
+	Player const* currPlayer;
 	
 public:
-
 	bool isValid(const Game&);
 	bool gameOver(const Game&);
 	bool roundOver(const Game&);

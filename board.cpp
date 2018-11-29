@@ -7,16 +7,25 @@ using std::out_of_range;
 using std::cerr;
 using std::endl;
 
+Board::Board() {
+	cardDeck=cardDeck.make_CardDeck();
+}
+
+void Board::setExpertDisplay() {
+	expertDisplay = true;
+}
+
+
 bool Board::isFaceUp(const Letter& letter, const Number number) const {
 	try {
 		if (int(letter) == 2 && int(number) == 2) {
 			throw out_of_range("C3 is not a valid selection");
 		}
-		return boolBoard[int(letter)][int(number)];
 	}
 	catch (const out_of_range& error) {
 		cerr << "Out of range error: " << error.what() << endl;
 	}
+	return boolBoard[int(letter)][int(number)];
 }
 
 bool Board::turnFaceUp(const Letter& letter, const Number number) {
@@ -146,11 +155,14 @@ ostream& operator<<(ostream& _os, const Board& _board) {
 					_os << "  ";
 				}
 				for (int k = 0; k < 5; k++) {
-					if (j == 2 & k == 2) {
+					if (j == 2 && k == 2) {
 						_os << "   ";
 					}
+					else if (_board.boolBoard[i][k]){
+						_os << _board.cardBoard[i][k]->operator()(j);
+					}
 					else {
-						_os << _board.cardBoard[i][j]->operator()(j);
+						_os << "zzz";
 					}
 					if (k != 4) {
 						_os << " ";
