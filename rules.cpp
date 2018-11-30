@@ -31,13 +31,9 @@ bool Rules::roundOver(const Game& game) {
 }
 
 const Player& Rules::getNextPlayer(const Game& game) {
-	int n = int(currPlayer->getSide());
-	n++;
-	Player const* p = currPlayer;
-	while (true) {
-		if (n = 4) { n = 0; }
-		if (game.getPlayer(Side(n)) != nullptr) {
+	
+}
 
-		}
-	}
+void Rules::crab(const Game&) {
+	cout << "You succesfully selected a Crab" << endl;
 }

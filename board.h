@@ -16,7 +16,7 @@ class Board {
 	// Private Class Variables
 	Card* cardBoard[5][5] = { nullptr };
 	bool boolBoard[5][5] = { false };
-	CardDeck cardDeck;
+	CardDeck* boardDeck;
 
 	// Private Class Variables for Expert Display Mode
 	bool expertDisplay = false;

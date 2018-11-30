@@ -4,6 +4,26 @@ RewardDeck* RewardDeck::rewardDeck = nullptr;
 
 RewardDeck::RewardDeck() {}
 
+void RewardDeck::shuffle() {
+	random_shuffle(deck.begin(), deck.end());
+}
+
+Reward* RewardDeck::next() {
+	if (isEmpty()) { return nullptr; }
+	else {
+		Reward* item = deck.back();
+		deck.pop_back();
+		return item;
+	}
+}
+
+bool RewardDeck::isEmpty() {
+	if (deck.empty()) {
+		return true;
+	}
+	else { return false; }
+}
+
 RewardDeck& RewardDeck::make_RewardDeck() {
 	if (rewardDeck == nullptr) {
 		rewardDeck = new RewardDeck();

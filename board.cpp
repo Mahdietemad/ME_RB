@@ -8,7 +8,19 @@ using std::cerr;
 using std::endl;
 
 Board::Board() {
-	cardDeck=cardDeck.make_CardDeck();
+	if (boardDeck->isEmpty() == false) {
+		boardDeck->make_CardDeck();
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				if (i != 2 && j != 2) {
+					cardBoard[i][j] = boardDeck->next();
+				}
+			}
+		}
+	}
+	else {
+		throw "No More Cards";
+	}
 }
 
 void Board::setExpertDisplay() {
@@ -17,19 +29,14 @@ void Board::setExpertDisplay() {
 
 
 bool Board::isFaceUp(const Letter& letter, const Number number) const {
-	try {
-		if (int(letter) == 2 && int(number) == 2) {
-			throw out_of_range("C3 is not a valid selection");
-		}
+	if (int(letter) == 2 && int(number) == 2) {
+		throw "C3 in not a valid selection";
 	}
-	catch (const out_of_range& error) {
-		cerr << "Out of range error: " << error.what() << endl;
-	}
-	return boolBoard[int(letter)][int(number)];
+	else { return boolBoard[int(letter)][int(number)]; }
 }
 
 bool Board::turnFaceUp(const Letter& letter, const Number number) {
-	if (isFaceUp(letter, number)) {	return false; }
+	if (isFaceUp(letter, number)) { return false; }
 	else {
 		boolBoard[int(letter)][int(number)] = true;
 		expertBoard.push_back(cardBoard[int(letter)][int(number)]);
@@ -55,34 +62,45 @@ bool Board::turnFaceDown(const Letter& letter, const Number number) {
 }
 
 Card* Board::getCard(const Letter& letter, const Number number) {
-	try {
-		if (int(letter) == 2 && int(number) == 2) {
-			throw out_of_range("C3 is not a valid selection");
-		}
-		return cardBoard[int(letter)][int(number)];
+	if (int(letter) == 2 && int(number) == 2) {
+		throw "C3 in not a valid selection";
 	}
-	catch (const out_of_range& error) {
-		cerr << "Out of range error: " << error.what() << endl;
-	}
+	else { return cardBoard[int(letter)][int(number)]; }
 }
 
 void Board::setCard(const Letter& letter, const Number& number, Card* card) {
-	try {
-		if (int(letter) == 2 && int(number) == 2) {
-			throw out_of_range("C3 is not a valid selection");
+	Letter oldLetter;
+	Number oldNumber;
+	bool cardBool;
+	if (int(letter) == 2 && int(number) == 2) {
+		throw "C3 in not a valid selection";
+	}
+	else {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				if (cardBoard[i][j] == card) {
+					oldLetter = Letter(i);
+					oldNumber = Number(j);
+					cardBool = boolBoard[i][j];
+				}
+			}
 		}
+		cardBoard[int(oldLetter)][int(oldNumber)] = cardBoard[int(letter)][int(number)];
+		boolBoard[int(oldLetter)][int(oldNumber)] = boolBoard[int(letter)][int(number)];
 		cardBoard[int(letter)][int(number)] = card;
+		boolBoard[int(letter)][int(number)] = cardBool;
 		for (int i = 0; i < expertBoard.size(); i++) {
 			if (expertBoard[i] != nullptr) {
 				if (expertBoard[i] == card) {
 					expertLetter[i] = letter;
 					expertNumber[i] = number;
 				}
+				else if (expertBoard[i] == cardBoard[int(oldLetter)][int(oldNumber)]) {
+					expertLetter[i] = oldLetter;
+					expertNumber[i] = oldNumber;
+				}
 			}
 		}
-	}
-	catch (const out_of_range& error) {
-		cerr << "Out of range error: " << error.what() << endl;
 	}
 }
 

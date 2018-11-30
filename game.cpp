@@ -7,6 +7,9 @@ int Game::getRound() const { return roundNum; }
 void Game::nextRound() {
 	board.reset();
 	roundNum++;
+	for (int i = 0; i < players.size(); i++) {
+		players[i]->setActive;
+	}
 }
 
 void Game::addPlayer(const Player& player) {
@@ -37,6 +40,7 @@ const Card* Game::getCurrentCard() const { return currCard; }
 void Game::setCurrentCard(const Card* card) {
 	prevCard = currCard;
 	currCard = card;
+
 }
 
 Card* Game::getCard(const Letter& letter, const Number& number) {
@@ -44,7 +48,7 @@ Card* Game::getCard(const Letter& letter, const Number& number) {
 }
 
 void Game::setCard(const Letter& letter, const Number& number, Card* card) {
-	return board.setCard(letter, number, card);
+	board.setCard(letter, number, card);
 }
 
 ostream& operator<<(ostream& _os, const Game& _game) {
