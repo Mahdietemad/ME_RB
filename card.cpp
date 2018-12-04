@@ -2,7 +2,7 @@
 
 Card::Card(FaceAnimal _animal, FaceBackground _background): animal(_animal), background(_background) {}
 
-string Card::getAnimalChar() {
+string Card::getAnimalChar() const {
 	string animalChar = "?"; //To check if there was an error
 	switch (animal) {
 	case Crab: animalChar = "C"; break;
@@ -14,7 +14,7 @@ string Card::getAnimalChar() {
 	return animalChar;
 }
 
-string Card::getBackgroundChar() {
+string Card::getBackgroundChar() const {
 	string backgroundChar = "?"; //To check if there was an error
 	switch (background) {
 	case Red: backgroundChar = "r"; break;
@@ -26,7 +26,7 @@ string Card::getBackgroundChar() {
 	return backgroundChar;
 }
 
-string Card::operator()(int row) {
+string Card::operator()(int row) const {
 	if (row == 1) {
 		return getBackgroundChar() + getAnimalChar() + getBackgroundChar();
 	}

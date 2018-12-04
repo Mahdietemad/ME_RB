@@ -51,24 +51,24 @@ bool Board::turnFaceDown(const Letter& letter, const Number number) {
 	else {
 		boolBoard[int(letter)][int(number)] = false;
 		for (int i = 0; i < expertBoard.size(); i++) {
-			if (expertBoard[i] != nullptr) {
-				if (expertBoard[i] == cardBoard[int(letter)][int(number)]) {
-					expertBoard[i] = nullptr;
-				}
+			if (expertBoard[i] == cardBoard[int(letter)][int(number)]) {
+				expertBoard.erase(expertBoard.begin() + i);
+				expertLetter.erase(expertLetter.begin() + i);
+				expertNumber.erase(expertNumber.begin() + i);
 			}
 		}
 		return true;
 	}
 }
 
-Card* Board::getCard(const Letter& letter, const Number number) {
+const Card* Board::getCard(const Letter& letter, const Number number) {
 	if (int(letter) == 2 && int(number) == 2) {
 		throw "C3 in not a valid selection";
 	}
 	else { return cardBoard[int(letter)][int(number)]; }
 }
 
-void Board::setCard(const Letter& letter, const Number& number, Card* card) {
+void Board::setCard(const Letter& letter, const Number& number, const Card* card) {
 	Letter oldLetter;
 	Number oldNumber;
 	bool cardBool;
@@ -90,16 +90,14 @@ void Board::setCard(const Letter& letter, const Number& number, Card* card) {
 		cardBoard[int(letter)][int(number)] = card;
 		boolBoard[int(letter)][int(number)] = cardBool;
 		for (int i = 0; i < expertBoard.size(); i++) {
-			if (expertBoard[i] != nullptr) {
-				if (expertBoard[i] == card) {
-					expertLetter[i] = letter;
-					expertNumber[i] = number;
-				}
-				else if (expertBoard[i] == cardBoard[int(oldLetter)][int(oldNumber)]) {
-					expertLetter[i] = oldLetter;
-					expertNumber[i] = oldNumber;
-				}
+			if (expertBoard[i] == card) {
+				expertLetter[i] = letter;
+				expertNumber[i] = number;
 			}
+			else if (expertBoard[i] == cardBoard[int(oldLetter)][int(oldNumber)]) {
+				expertLetter[i] = oldLetter;
+				expertNumber[i] = oldNumber;
+			}	
 		}
 	}
 }
@@ -143,21 +141,18 @@ ostream& operator<<(ostream& _os, const Board& _board) {
 	if (_board.expertDisplay) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < _board.expertBoard.size(); j++) {
-				if (_board.expertBoard[j] != nullptr) {
-					_os << _board.expertBoard[j]->operator()(i);
-					if (j != _board.expertBoard.size() - 1) {
-						_os << " ";
-					}
+				_os << _board.expertBoard[j]->operator()(i);
+				if (j != _board.expertBoard.size() - 1) {
+					_os << " ";
 				}
+
 			}
 			_os << endl;
 		}
 		for (int i = 0; i < _board.expertBoard.size(); i++) {
-			if (_board.expertBoard[i] != nullptr) {
-				_os << _board.expertLetter[i] << _board.expertNumber[i];
-				if (i != _board.expertBoard.size() - 1) {
-					_os << " ";
-				}
+			_os << _board.expertLetter[i] << _board.expertNumber[i];
+			if (i != _board.expertBoard.size() - 1) {
+				_os << " ";
 			}
 		}
 		_os << endl;
@@ -200,4 +195,24 @@ ostream& operator<<(ostream& _os, const Board& _board) {
 		_os << endl;
 	}
 	return _os;
+}
+
+const Letter& Board::getLetter(const Card* card) {
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if (cardBoard[i][j] = card) {
+				return Letter(i);
+			}
+		}
+	}
+}
+
+const Number& Board::getNumber(const Card* card) {
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if (cardBoard[i][j] = card) {
+				return Number(j);
+			}
+		}
+	}
 }

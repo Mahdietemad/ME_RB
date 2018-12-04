@@ -16,12 +16,6 @@ public:
 	bool roundOver(const Game&);
 	const Player& getNextPlayer(const Game&);
 
-	// Public Class Methods for Expert Rules
-	void octopus(const Game&);
-	void penguin(const Game&);
-	void walrus(const Game&);
-	void crab(const Game&);
-	void turtle(const Game&);
 };
 
 

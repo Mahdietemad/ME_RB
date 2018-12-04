@@ -71,7 +71,7 @@ void main() {
 
 	// Test int Player::getNRubies()
 	cout << "Testing -> int Player::getNRubies()" << endl;
-	cout << p.getNRubies << endl;
+	cout << p.getNRubies() << endl;
 
 	// Test void Player::setSide(Side _side)
 	cout << "Testing -> void Player::setSide(Side _side)" << endl;

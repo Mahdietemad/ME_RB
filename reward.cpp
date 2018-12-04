@@ -10,3 +10,10 @@ ostream& operator<<(ostream& _os, const Reward& _reward) {
 Reward::operator int() const{
 	return rubies;
 }
+
+#define TEST_REWARD (0)
+#if TEST_REWARD
+
+
+
+#endif

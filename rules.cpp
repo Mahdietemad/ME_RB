@@ -1,12 +1,16 @@
 #include "rules.h"
 
+#include <iterator>
+
+using std::iterator;
+
 bool Rules::isValid(const Game& game) {
 	Card const* prevCard = game.getPreviousCard();
 	Card const* currCard = game.getCurrentCard();
-	FaceAnimal prevAnimal = prevCard->operator FaceAnimal;
-	FaceAnimal currAnimal = currCard->operator FaceAnimal;
-	FaceBackground prevBackground = prevCard->operator FaceBackground;
-	FaceBackground currBackground = currCard->operator FaceBackground;
+	FaceAnimal prevAnimal = *prevCard;
+	FaceAnimal currAnimal = *currCard;
+	FaceBackground prevBackground = *prevCard;
+	FaceBackground currBackground = *currCard;
 	if (prevAnimal == currAnimal || prevBackground == currBackground) {
 		return true;
 	}
@@ -31,9 +35,17 @@ bool Rules::roundOver(const Game& game) {
 }
 
 const Player& Rules::getNextPlayer(const Game& game) {
-	
-}
-
-void Rules::crab(const Game&) {
-	cout << "You succesfully selected a Crab" << endl;
+	vector<Player*>::iterator it = game.players.begin;
+	while (*it != currPlayer) {
+		it++;
+	}
+	for (int i = 0; i < game.players.size() - 1 ; i++) {
+		if (it == game.players.end()) { it = game.players.begin; }
+		else { it++; }
+		if ((*it)->isActive()) { 
+			currPlayer = *it;
+			return *(*it);
+		}
+	}
+	return *currPlayer;
 }

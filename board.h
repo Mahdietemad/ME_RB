@@ -14,13 +14,13 @@ enum Number {One, Two, Three, Four, Five};
 
 class Board {
 	// Private Class Variables
-	Card* cardBoard[5][5] = { nullptr };
+	const Card* cardBoard[5][5] = { nullptr };
 	bool boolBoard[5][5] = { false };
 	CardDeck* boardDeck;
 
 	// Private Class Variables for Expert Display Mode
 	bool expertDisplay = false;
-	vector<Card*> expertBoard;
+	vector<const Card*> expertBoard;
 	vector<Letter> expertLetter;
 	vector<Number> expertNumber;
 
@@ -35,9 +35,13 @@ public:
 	bool isFaceUp(const Letter& letter, const Number number) const;
 	bool turnFaceUp(const Letter& letter, const Number number);
 	bool turnFaceDown(const Letter& letter, const Number number);
-	Card* getCard(const Letter& letter, const Number number);
-	void setCard(const Letter& letter, const Number& number, Card* card);
+	const Card* getCard(const Letter& letter, const Number number);
+	void setCard(const Letter& letter, const Number& number, const Card* card);
 	void reset();
+	
+	// Additional Public Class Methods
+	const Letter& getLetter(const Card*);
+	const Number& getNumber(const Card*);
 
 	// Public Class Method for Expert Display
 	void setExpertDisplay();

@@ -17,15 +17,15 @@ class Card {
 	
 	// Private Class Functions
 	Card(FaceAnimal _animal, FaceBackground _background);
-	string getAnimalChar();
-	string getBackgroundChar();
+	string getAnimalChar() const;
+	string getBackgroundChar() const;
 
 	// Friend Accesses
 	friend class CardDeck;
 
 public:
 	// Public Class Operators
-	string operator()(int row); // Not sure if this operator should be public or private
+	string operator()(int row) const ; // Not sure if this operator should be public or private
 	operator FaceAnimal() const;
 	operator FaceBackground() const;
 };
