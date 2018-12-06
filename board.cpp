@@ -1,15 +1,17 @@
 #include "board.h"
 
-#include <stdexcept>
-#include <iostream>
-
-using std::out_of_range;
-using std::cerr;
-using std::endl;
-
 Board::Board() {
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			cardBoard[i][j] = nullptr;
+			boolBoard[i][j] = false;
+		}
+	}
+	if (boardDeck == nullptr){
+		boardDeck = &(boardDeck->make_CardDeck());
+		boardDeck->shuffle();
+	}
 	if (boardDeck->isEmpty() == false) {
-		boardDeck->make_CardDeck();
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				if (i != 2 && j != 2) {
@@ -113,6 +115,15 @@ void Board::reset() {
 	expertNumber.clear();
 }
 
+Board::~Board() {
+	delete boardDeck;
+	delete[] cardBoard;
+	delete[] boolBoard;
+	for (int i = 0; i < expertBoard.size(); i++) {
+		delete expertBoard[i];
+	}
+}
+
 ostream& operator<<(ostream& _os, const Letter& _letter) {
 	switch (_letter) {
 	case A: _os << "A"; break;
@@ -161,7 +172,7 @@ ostream& operator<<(ostream& _os, const Board& _board) {
 	else {
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (j = 1) {
+				if (j == 1) {
 					_os << Letter(i) << " ";
 				}
 				else {
@@ -197,22 +208,24 @@ ostream& operator<<(ostream& _os, const Board& _board) {
 	return _os;
 }
 
-const Letter& Board::getLetter(const Card* card) {
+const Letter Board::getLetter(const Card* card) {
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++) {
-			if (cardBoard[i][j] = card) {
+			if (cardBoard[i][j] == card) {
 				return Letter(i);
 			}
 		}
 	}
+	throw "Card not found";
 }
 
-const Number& Board::getNumber(const Card* card) {
+const Number Board::getNumber(const Card* card) {
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++) {
-			if (cardBoard[i][j] = card) {
+			if (cardBoard[i][j] == card) {
 				return Number(j);
 			}
 		}
 	}
+	throw "Card not found";
 }

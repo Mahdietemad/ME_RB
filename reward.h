@@ -21,6 +21,9 @@ class Reward {
 public:
 	// Public Class Functions
 	operator int() const;
+
+	// Destructor
+	~Reward();
 };
 
 #endif

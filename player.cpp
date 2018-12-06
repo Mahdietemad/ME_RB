@@ -41,12 +41,14 @@ ostream& operator<<(ostream& _os, const Player& _player) {
 	return _os;
 }
 
+Player::~Player() {}
+
 // Testing the public functions of player.cpp
 #define TEST_PLAYER (0)
 #if TEST_PLAYER
 using std::cout;
 using std::endl;
-void main() {
+int main() {
 	// Test Player::Player(string _name, Side _side)
 	cout << "Testing -> Player::Player(string _name, Side _side)" << endl;
 	Player p = Player("Reece", top);
@@ -87,5 +89,7 @@ void main() {
 	cout << "Tesing -> void Player::addReward(const Reward& _reward)" << endl;
 
 	cout << "The Reward contructor is private -> Not sure how to test this" << endl;
+
+	return 0;
 }
 #endif

@@ -1,6 +1,8 @@
 #include "game.h"
 
-Game::Game() {}
+Game::Game() {
+	roundNum = 0;
+}
 
 int Game::getRound() const { return roundNum; }
 
@@ -10,6 +12,10 @@ void Game::nextRound() {
 	for (int i = 0; i < players.size(); i++) {
 		players[i]->setActive(true);
 	}
+}
+
+void Game::reset() {
+	board.reset();
 }
 
 void Game::addPlayer(const Player& player) {
@@ -31,6 +37,7 @@ Player& Game::getPlayer(Side side) const {
 			return *players[i];
 		}
 	}
+	throw "There is no player to side entered";
 }
 
 const Card* Game::getPreviousCard() const { return prevCard; }
@@ -45,16 +52,6 @@ void Game::setCurrentCard(const Card* card) {
 	}
 	prevCard = currCard;
 	currCard = card;
-	
-
-}
-
-void Game::setCurrentCard(const Letter& letter, const Number& number) {
-	if (board.turnFaceUp(letter, number) == false) {
-		throw "This card is already face up. Please select another card.";
-	}
-	prevCard = currCard;
-	currCard = board.getCard(letter, number);
 }
 
 const Card* Game::getCard(const Letter& letter, const Number& number) {
@@ -67,6 +64,12 @@ void Game::setCard(const Letter& letter, const Number& number, const Card* card)
 
 void Game::setExpertDisplay() {
 	board.setExpertDisplay();
+}
+
+Game::~Game() {
+	delete currPlayer;
+	delete prevCard;
+	delete currCard;
 }
 
 ostream& operator<<(ostream& _os, const Game& _game) {
@@ -117,8 +120,12 @@ void Game::penguin() {
 	}
 }
 
-bool Game::walrus() {
+bool Game::isWalrus() {
 	return FaceAnimal(*currCard) == Walrus;
+}
+
+bool Game::walrus(const Letter& letter, const Number& number) {
+	return !board.isFaceUp(letter, number);
 }
 
 bool Game::crab() {
@@ -145,6 +152,7 @@ Letter Game::stringtoLetter(char c) {
 	case 'D': return D;
 	case 'E': return E;
 	}
+	throw "The entered char does not have a corresponding Letter";
 }
 
 Number Game::stringtoNumber(char c) {
@@ -155,4 +163,5 @@ Number Game::stringtoNumber(char c) {
 	case '4': return Four;
 	case '5': return Five;
 	}
+	throw "The entered char does not have a corresponding Number";
 }

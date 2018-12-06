@@ -35,17 +35,21 @@ bool Rules::roundOver(const Game& game) {
 }
 
 const Player& Rules::getNextPlayer(const Game& game) {
-	vector<Player*>::iterator it = game.players.begin;
-	while (*it != currPlayer) {
-		it++;
+	int temp = 0;
+	while (game.players[temp] != currPlayer) {
+		temp++;
 	}
-	for (int i = 0; i < game.players.size() - 1 ; i++) {
-		if (it == game.players.end()) { it = game.players.begin; }
-		else { it++; }
-		if ((*it)->isActive()) { 
-			currPlayer = *it;
-			return *(*it);
+	for (int i = 0; i < game.players.size() - 1; i++) {
+		if (temp == game.players.size() - 1) { temp = 0; }
+		else { temp++; }
+		if (game.players[temp]->isActive()) {
+			currPlayer = game.players[temp];
+			return *currPlayer;
 		}
 	}
 	return *currPlayer;
+}
+
+Rules::~Rules() {
+	delete currPlayer;
 }

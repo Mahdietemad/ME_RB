@@ -1,8 +1,6 @@
 #include "board.h"
 #include "player.h"
 
-
-
 using std::endl;
 using std::cout;
 using std::cin;
@@ -13,7 +11,7 @@ using std::cin;
 class Game {
 	// Private Class Variables
 	Board board;
-	int roundNum = 0;
+	int roundNum;
 	Player* currPlayer = nullptr;
 	Card const* prevCard = nullptr;
 	Card const* currCard = nullptr;
@@ -34,9 +32,14 @@ public:
 	const Card* getPreviousCard() const;
 	const Card* getCurrentCard() const;
 	void setCurrentCard(const Card*);
-	void setCurrentCard(const Letter&, const Number&);
 	const Card* getCard(const Letter&, const Number&);
 	void setCard(const Letter&, const Number&, const Card*);
+
+	// Destructor
+	~Game();
+
+	// Additional Public Class Methods
+	void reset();
 
 	// Public Class Methods for Expert Display
 	void setExpertDisplay();
@@ -44,10 +47,10 @@ public:
 	// Public Class Methods for Expert Rules
 	void octopus();
 	void penguin();
-	bool walrus();
+	bool walrus(const Letter&, const Number&);
+
 	bool crab();
 	bool turtle();
-
 	bool isOctopus();
 	bool isPenguin();
 	bool isWalrus();

@@ -1,80 +1,112 @@
-#include "player.cpp"
 #include "board.h"
 #include "rules.h"
-#include <iostream>
-#include <string>
-
-using namespace std;
+#include "rewardDeck.h"
 
 using std::string;
-using std::cin;
+using std::exception;
 
 //tesing main
 
 int main() {
 	cout<<"------------1----------"<<endl; //ignore
+
+	//Initialize game/rules and other variables
 	int expertDisplay;
 	int expertRules;
 	Game game;
 	Rules rules;
 	vector<Player*> players;
 
+	// Enter the display
 	cout << "Choose the display mode:" << endl;
 	cout << "Enter '0' for Normal Display or '1' for Expert Display" << endl;
 	cin >> expertDisplay;
+	if (expertDisplay) { game.setExpertDisplay(); }
 
+	// Enter the difficulty
 	cout << "Choose your game mode:" << endl;
 	cout << "Enter '0' for Normal Mode or '1' for Expert Mode" << endl;
 	cin >> expertRules;
 	
-
-    string name1, name2, name3, name4;
+	// Initialize player variables
     int numberOfPlayers;
-    bool flag = true;
+    bool playerFlag = true;
 
     // Enters the number of players
-    while(flag){
-         cout<<"Please enter the number of players"<<endl;
-         cin>>numberOfPlayers;
-         if (numberOfPlayers>4 || numberOfPlayers<2){
-            if (numberOfPlayers<2){
-                cout<<"Minimum of 2 players required";
-                 }
-             else if(numberOfPlayers>4){
-                 cout<<"Maximum of 4 players required";
-                }             
-         } else {
-             flag=false;
-         }
-
+    while (playerFlag) {
+        cout<<"Please enter the number of players: "<<endl;
+        cin>>numberOfPlayers;
+		if (numberOfPlayers<2){
+			cout<<"Minimum of 2 players required";
+        }
+        else if(numberOfPlayers>4){
+			cout<<"Maximum of 4 players required";
+        }             
+		else {
+			playerFlag = false;
+		}
     }
 
-	// Create the Player and add them to the game
+	// Create the Players and add them to the game
 	for (int i = 0; i < numberOfPlayers; i++) {
 		string name;
-		cout << "Player " << i + 1 << ":";
+		cout << "Player " << i + 1 << ": ";
 		cin >> name;
 		Player* player = new Player(name, Side(i));
 		players.push_back(player);
 		game.addPlayer(*player);
 	}
     
-	// Initialize the current player
+	// Initialize the current player and reward deck
 	Player* currPlayer = players[0];
+	RewardDeck* rewardDeck;
+	rewardDeck = &(rewardDeck->make_RewardDeck());
+	rewardDeck->shuffle();
 
     while(rules.gameOver(game) == false) {
-       // update status of cards in board as face down
-       // update status of all players in game as active
+		// Temperarily reveals card in front of players
+		if (game.getRound() == 0) {
+			for (int i = 0; i < players.size(); i++) {
+				const Card* card1;
+				const Card* card2;
+				const Card* card3;
+				if (i == 0) {
+					card1 = game.getCard(A, Two);
+					card2 = game.getCard(A, Three);
+					card3 = game.getCard(A, Four);
+				}
+				else if (i == 1) {
+					card1 = game.getCard(E, Two);
+					card2 = game.getCard(E, Three);
+					card3 = game.getCard(E, Four);
+				}
+				else if (i == 2) {
+					card1 = game.getCard(B, One);
+					card2 = game.getCard(C, One);
+					card3 = game.getCard(D, One);
+				}
+				else {
+					card1 = game.getCard(B, Five);
+					card2 = game.getCard(C, Five);
+					card3 = game.getCard(D, Five);
+				}
+				game.setCurrentCard(card1);
+				game.setCurrentCard(card2);
+				game.setCurrentCard(card3);
+				cout << game << endl;
+				game.reset();
+			}
+		}
+		// Initalize game variables
 		int numTurns = 0;
 		Letter blockedLetter = C;
 		Number blockedNumber = Three;
 		while(rules.roundOver(game) == false){
-             // next active player takes a turn
-             // get selection of card to turn face up from active player 
-             // update board in game
-			flag = true;
+			// Initlize round variables
+			bool inputFlag = true;
 			string userInput;
-			while (flag) {
+			while (inputFlag) {
+				cout << "Current turn: " + currPlayer->getName() << endl;
 				cout << "Please select a card to turn face up" << endl;
 				cin >> userInput;
 				Letter userLetter = game.stringtoLetter(userInput[0]);
@@ -87,26 +119,25 @@ int main() {
 					cout << "The location you selected is blocked. Please select another card." << endl;
 				}
 				else if (numTurns == 0) {
-					game.setCurrentCard(userLetter, userNumber);
+					game.setCurrentCard(game.getCard(userLetter, userNumber));
 					numTurns++;
 				}
 				else {
 					try {
-						game.setCurrentCard(userLetter, userNumber);
+						game.setCurrentCard(game.getCard(userLetter, userNumber));
 						numTurns++;
-						flag = false;
+						inputFlag = false;
 					}
 					catch (exception e) {
 						cerr << e.what();
 					}
 				}
 			}
-			if(rules.isValid(game)==false){ //rules.isvalid(card)??
-				// player is no longer part of the current round
-                // current player becomes inactive
+			// Checks if player made a valid selection
+			if(rules.isValid(game)==false){ 
 				currPlayer->setActive(false);
 			}
-			
+			// Expert Rules Section
 			if (expertRules && rules.isValid(game)){
 				if (game.isOctopus()) {
 					game.octopus();
@@ -120,10 +151,10 @@ int main() {
 					blockedLetter = C;
 					blockedNumber = Three;
 				}
-				else if (game.walrus()) {
-					bool flag = true;
+				else if (game.isWalrus()) {
+					bool walrusFlag = true;
 					string userInput;
-					while (flag) {
+					while (walrusFlag) {
 						cout << "Please select a face down card to block" << endl;
 						cin >> userInput;
 						Letter userLetter = game.stringtoLetter(userInput[0]);
@@ -131,19 +162,52 @@ int main() {
 						if ((userLetter == C) && (userNumber == Three)) {
 							cout << "C3 is not a valid selection" << endl;
 						}
-						else {
-
+						else if (game.walrus(userLetter, userNumber)) {
+							blockedLetter = userLetter;
+							blockedNumber = userNumber;
+							walrusFlag = false;
 						}
-
 					}
+					currPlayer = const_cast<Player*>(&rules.getNextPlayer(game));
 				}
 				else if (game.crab()) {
+					bool crabFlag = true;
+					string userInput;
+					while (crabFlag) {
+						cout << "Please select a card to turn face up" << endl;
+						cin >> userInput;
+						Letter userLetter = game.stringtoLetter(userInput[0]);
+						Number userNumber = game.stringtoNumber(userInput[1]);
 
+						if ((userLetter == C) && (userNumber == Three)) {
+							cout << "C3 is not a valid selection" << endl;
+						}
+						else if (expertRules && (userLetter == blockedLetter) && (userNumber == blockedNumber)) {
+							cout << "The location you selected is blocked. Please select another card." << endl;
+						}
+						else {
+							try {
+								game.setCurrentCard(game.getCard(userLetter, userNumber));
+								numTurns++;
+								crabFlag = false;
+							}
+							catch (exception e) {
+								cerr << e.what();
+							}
+						}
+					}
+					currPlayer = const_cast<Player*>(&rules.getNextPlayer(game));
+					blockedLetter = C;
+					blockedNumber = Three;
 				}
 				else if (game.turtle()) {
-
+					currPlayer = const_cast<Player*>(&rules.getNextPlayer(game));
+					currPlayer = const_cast<Player*>(&rules.getNextPlayer(game));
+					blockedLetter = C;
+					blockedNumber = Three;
 				}
 			}
+			// Normal 
 			else {
 				if (rules.roundOver(game) == false) { currPlayer = const_cast<Player*>(&rules.getNextPlayer(game)); }
 				blockedLetter = C;
@@ -151,94 +215,40 @@ int main() {
 			}
 			cout << game << endl;               
         }
-          // Remaining active player receives reward (rubies) 
-          
-                         }
-    
-    string winnerName;
+        // Remaining active player receives reward (rubies) & next round
+		Reward* reward = rewardDeck->next();
+		currPlayer->addReward(*reward);
+		delete reward;
+		game.nextRound();
+    }
+	// Set each player to endOfGame
+	for (int i = 0; i < players.size(); i++) {
+		players[i]->setDisplayMode(true);
+	}
+	// Prints players
+	Player* winner = nullptr;
+	vector<Player*> copyPlayers = players;
+	for (int i = 0; i < players.size(); i++) {
+		Player* leastPlayer = nullptr;
+		int leastRubies = -1;
+		int position = -1;
+		for (int j = 0; j < copyPlayers.size(); j++) {
+			if (copyPlayers[j]->getNRubies() > leastRubies) {
+				leastPlayer = copyPlayers[j];
+				leastRubies = copyPlayers[j]->getNRubies();
+				position = j;
+			}
+		}
+		cout << *leastPlayer << endl;
+		copyPlayers.erase(copyPlayers.begin() + position);
+		winner = leastPlayer;
+	}
+	cout << "The winner is:" << endl;
+	cout << winner->getName() << endl;
 
-    if(numberOfPlayers==2){
-    int player1Rubies=player1.getNRubies();
-    name1=player1.getName();
-    cout<<"name: "+name1<<" Rubies: " +player1Rubies<<endl;
-    
-     int player2Rubies=player2.getNRubies();
-    name2=player2.getName();
-    cout<<"name: "+name2<<" Rubies: " +player2Rubies<<endl;
-   
-    if(player1Rubies>player2Rubies){
-        winnerName=name1;
-    }
-    else{
-        winnerName=name3;
+	delete rewardDeck;
+	delete currPlayer;
+	delete winner;
 
-    }
-    
-            
-    }
-    else if(numberOfPlayers==3){
-    int player1Rubies=player1.getNRubies();
-    name1=player1.getName();
-    cout<<"name: "+name1<<" Rubies: " +player1Rubies<<endl;
-    
-     int player2Rubies=player2.getNRubies();
-    name2=player2.getName();
-    cout<<"name: "+name2<<" Rubies: " +player2Rubies<<endl;  
-          
-     int player3Rubies=player3.getNRubies();
-    name3=player3.getName();
-    cout<<"name: "+name3<<" Rubies: " +player3Rubies<<endl;  
-     
-      if((player1Rubies>player2Rubies)&&(player1Rubies>player3Rubies)){
-        winnerName=name1;
-    }
-    else if((player2Rubies>player1Rubies)&&(player2Rubies>player3Rubies)){
-        winnerName=name2;
-    }
-    else{
-        winnerName=name3;
-
-    }
-        
-        
-    }else{
-        int player1Rubies=player1.getNRubies();
-    name1=player1.getName();
-    cout<<"name: "+name1<<" Rubies: " +player1Rubies<<endl;
-    
-     int player2Rubies=player2.getNRubies();
-    name2=player2.getName();
-    cout<<"name: "+name2<<" Rubies: " +player2Rubies<<endl;  
-          
-     int player3Rubies=player3.getNRubies();
-    name3=player3.getName();
-    cout<<"name: "+name3<<" Rubies: " +player3Rubies<<endl;  
-    
-     int player4Rubies=player4.getNRubies();
-    name4=player4.getName();
-    cout<<"name: "+name4<<" Rubies: " +player4Rubies<<endl;  
-    
-    
-    
-    if((player1Rubies>player2Rubies)&&(player1Rubies>player3Rubies)&&(player1Rubies>player4Rubies)){
-        winnerName=name1;
-    }
-    else if((player2Rubies>player1Rubies)&&(player2Rubies>player3Rubies)&&(player2Rubies>player4Rubies)){
-        winnerName=name2;
-    }
-     else if((player3Rubies>player1Rubies)&&(player3Rubies>player2Rubies)&&(player3Rubies>player4Rubies)){
-        winnerName=name3;
-    }
-    else{
-        winnerName=name4;
-
-    }
-        
-    }
-    
-    cout<<"the winner is: "<<winnerName<<endl;
-   
-   
-    
-    return 0;
+	return 0;
 }

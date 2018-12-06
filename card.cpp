@@ -44,9 +44,10 @@ Card::operator FaceBackground() const {
 	return background;
 }
 
+Card::~Card() {}
 
 // Testing the public functions of card.cpp
-#define TEST_CARD (1)
+#define TEST_CARD (0)
 #if TEST_CARD
 using std::cout;
 using std::endl;
@@ -55,5 +56,6 @@ void main() {
 	cout << "Testing -> Card::Card(FaceAnimal _animal, FaceBackground _background)" << endl;
 	// Card c = Card(Crab, Red);
 	cout << "The Card constructor is private -> Not sure how to test this" << endl;
+	
 }
 #endif

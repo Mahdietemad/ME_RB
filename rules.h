@@ -16,6 +16,9 @@ public:
 	bool roundOver(const Game&);
 	const Player& getNextPlayer(const Game&);
 
+	// Destructor
+	~Rules();
+
 };
 
 

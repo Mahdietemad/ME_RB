@@ -2,7 +2,11 @@
 
 #include <string>
 #include <iostream>
+#include <stdexcept>
 
+using std::out_of_range;
+using std::cerr;
+using std::endl;
 using std::string;
 using std::vector;
 
@@ -14,8 +18,8 @@ enum Number {One, Two, Three, Four, Five};
 
 class Board {
 	// Private Class Variables
-	const Card* cardBoard[5][5] = { nullptr };
-	bool boolBoard[5][5] = { false };
+	const Card* cardBoard[5][5];
+	bool boolBoard[5][5];
 	CardDeck* boardDeck;
 
 	// Private Class Variables for Expert Display Mode
@@ -38,10 +42,13 @@ public:
 	const Card* getCard(const Letter& letter, const Number number);
 	void setCard(const Letter& letter, const Number& number, const Card* card);
 	void reset();
+
+	// Destructor
+	~Board();
 	
 	// Additional Public Class Methods
-	const Letter& getLetter(const Card*);
-	const Number& getNumber(const Card*);
+	const Letter getLetter(const Card*);
+	const Number getNumber(const Card*);
 
 	// Public Class Method for Expert Display
 	void setExpertDisplay();

@@ -33,6 +33,9 @@ public:
 	void setDisplayMode(bool _endOfGame);
 	Side getSide() const;
 	void setSide(Side _side);
+
+	//Destructor
+	~Player();
 	
 };
 

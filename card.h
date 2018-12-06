@@ -28,6 +28,9 @@ public:
 	string operator()(int row) const ; // Not sure if this operator should be public or private
 	operator FaceAnimal() const;
 	operator FaceBackground() const;
+
+	// Destructor
+	~Card();
 };
 
 #endif
