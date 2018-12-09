@@ -1,12 +1,6 @@
 #include "board.h"
 
 Board::Board() {
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
-			cardBoard[i][j] = nullptr;
-			boolBoard[i][j] = false;
-		}
-	}
 	if (boardDeck == nullptr){
 		boardDeck = &(boardDeck->make_CardDeck());
 		boardDeck->shuffle();
@@ -14,8 +8,13 @@ Board::Board() {
 	if (boardDeck->isEmpty() == false) {
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
-				if (i != 2 && j != 2) {
+				if (i == 2 && j == 2) {
+					cardBoard[i][j] = nullptr;
+					boolBoard[i][j] = false;
+				}
+				else {
 					cardBoard[i][j] = boardDeck->next();
+					boolBoard[i][j] = false;
 				}
 			}
 		}
@@ -52,7 +51,7 @@ bool Board::turnFaceDown(const Letter& letter, const Number number) {
 	if (isFaceUp(letter, number) == false) { return false; }
 	else {
 		boolBoard[int(letter)][int(number)] = false;
-		for (int i = 0; i < expertBoard.size(); i++) {
+		for (int i = 0; i < int(expertBoard.size()); i++) {
 			if (expertBoard[i] == cardBoard[int(letter)][int(number)]) {
 				expertBoard.erase(expertBoard.begin() + i);
 				expertLetter.erase(expertLetter.begin() + i);
@@ -91,7 +90,7 @@ void Board::setCard(const Letter& letter, const Number& number, const Card* card
 		boolBoard[int(oldLetter)][int(oldNumber)] = boolBoard[int(letter)][int(number)];
 		cardBoard[int(letter)][int(number)] = card;
 		boolBoard[int(letter)][int(number)] = cardBool;
-		for (int i = 0; i < expertBoard.size(); i++) {
+		for (int i = 0; i < int(expertBoard.size()); i++) {
 			if (expertBoard[i] == card) {
 				expertLetter[i] = letter;
 				expertNumber[i] = number;
@@ -117,11 +116,16 @@ void Board::reset() {
 
 Board::~Board() {
 	delete boardDeck;
-	delete[] cardBoard;
-	delete[] boolBoard;
-	for (int i = 0; i < expertBoard.size(); i++) {
+	for (int i = 0; i < int(expertBoard.size()); i++) {
 		delete expertBoard[i];
 	}
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			delete cardBoard[i][j];
+		}
+	}
+	delete cardBoard;
+	delete boolBoard;
 }
 
 ostream& operator<<(ostream& _os, const Letter& _letter) {
@@ -150,8 +154,14 @@ ostream& operator<<(ostream& _os, const Board& _board) {
 	// Expert Display
 	// Might need to be edited if the card don't fit on the screen
 	if (_board.expertDisplay) {
+		//int cardsPrinted = 0;
+		//int cardsInRow = 0;
+
+
+
+
 		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < _board.expertBoard.size(); j++) {
+			for (int j = 0; j < int(_board.expertBoard.size()); j++) {
 				_os << _board.expertBoard[j]->operator()(i);
 				if (j != _board.expertBoard.size() - 1) {
 					_os << " ";
@@ -160,10 +170,10 @@ ostream& operator<<(ostream& _os, const Board& _board) {
 			}
 			_os << endl;
 		}
-		for (int i = 0; i < _board.expertBoard.size(); i++) {
+		for (int i = 0; i < int(_board.expertBoard.size()); i++) {
 			_os << _board.expertLetter[i] << _board.expertNumber[i];
 			if (i != _board.expertBoard.size() - 1) {
-				_os << " ";
+				_os << "  ";
 			}
 		}
 		_os << endl;
@@ -179,7 +189,7 @@ ostream& operator<<(ostream& _os, const Board& _board) {
 					_os << "  ";
 				}
 				for (int k = 0; k < 5; k++) {
-					if (j == 2 && k == 2) {
+					if (i == 2 && k == 2) {
 						_os << "   ";
 					}
 					else if (_board.boolBoard[i][k]){

@@ -75,7 +75,7 @@ Game::~Game() {
 ostream& operator<<(ostream& _os, const Game& _game) {
 	_os << _game.board << endl;
 	for (int i = 0; i < _game.players.size(); i++) {
-		_os << _game.players[i] << endl;
+		_os << *(_game.players[i]) << endl;
 	}
 	return _os;
 }

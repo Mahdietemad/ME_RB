@@ -24,7 +24,7 @@ bool Rules::gameOver(const Game& game) {
 
 bool Rules::roundOver(const Game& game) {
 	int activePlayers = 0;
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < int(game.players.size()); i++) {
 		if (&game.getPlayer(Side(i)) != nullptr) {
 			Player* p = &game.getPlayer(Side(i));
 			if (p->isActive()) { activePlayers++; }
@@ -39,8 +39,8 @@ const Player& Rules::getNextPlayer(const Game& game) {
 	while (game.players[temp] != currPlayer) {
 		temp++;
 	}
-	for (int i = 0; i < game.players.size() - 1; i++) {
-		if (temp == game.players.size() - 1) { temp = 0; }
+	for (int i = 0; i < int(game.players.size()) - 1; i++) {
+		if (temp == int(game.players.size()) - 1) { temp = 0; }
 		else { temp++; }
 		if (game.players[temp]->isActive()) {
 			currPlayer = game.players[temp];

@@ -21,12 +21,14 @@ int main() {
 	cout << "Choose the display mode:" << endl;
 	cout << "Enter '0' for Normal Display or '1' for Expert Display" << endl;
 	cin >> expertDisplay;
+	cout << endl;
 	if (expertDisplay) { game.setExpertDisplay(); }
 
 	// Enter the difficulty
 	cout << "Choose your game mode:" << endl;
 	cout << "Enter '0' for Normal Mode or '1' for Expert Mode" << endl;
 	cin >> expertRules;
+	cout << endl;
 	
 	// Initialize player variables
     int numberOfPlayers;
@@ -56,6 +58,10 @@ int main() {
 		players.push_back(player);
 		game.addPlayer(*player);
 	}
+
+	// Print the game
+	cout << endl;
+	cout << game << endl;
     
 	// Initialize the current player and reward deck
 	Player* currPlayer = players[0];
@@ -66,7 +72,7 @@ int main() {
     while(rules.gameOver(game) == false) {
 		// Temperarily reveals card in front of players
 		if (game.getRound() == 0) {
-			for (int i = 0; i < players.size(); i++) {
+			for (int i = 0; i < int(players.size()); i++) {
 				const Card* card1;
 				const Card* card2;
 				const Card* card3;
@@ -138,7 +144,7 @@ int main() {
 				currPlayer->setActive(false);
 			}
 			// Expert Rules Section
-			if (expertRules && rules.isValid(game)){
+			if (expertRules && currPlayer->isActive()){
 				if (game.isOctopus()) {
 					game.octopus();
 					currPlayer = const_cast<Player*>(&rules.getNextPlayer(game));
@@ -222,17 +228,17 @@ int main() {
 		game.nextRound();
     }
 	// Set each player to endOfGame
-	for (int i = 0; i < players.size(); i++) {
+	for (int i = 0; i < int(players.size()); i++) {
 		players[i]->setDisplayMode(true);
 	}
 	// Prints players
 	Player* winner = nullptr;
 	vector<Player*> copyPlayers = players;
-	for (int i = 0; i < players.size(); i++) {
+	for (int i = 0; i < int(players.size()); i++) {
 		Player* leastPlayer = nullptr;
 		int leastRubies = -1;
 		int position = -1;
-		for (int j = 0; j < copyPlayers.size(); j++) {
+		for (int j = 0; j < int(copyPlayers.size()); j++) {
 			if (copyPlayers[j]->getNRubies() > leastRubies) {
 				leastPlayer = copyPlayers[j];
 				leastRubies = copyPlayers[j]->getNRubies();

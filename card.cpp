@@ -3,27 +3,26 @@
 Card::Card(FaceAnimal _animal, FaceBackground _background): animal(_animal), background(_background) {}
 
 string Card::getAnimalChar() const {
-	string animalChar = "?"; //To check if there was an error
 	switch (animal) {
-	case Crab: animalChar = "C"; break;
-	case Penguin: animalChar = "P"; break;
-	case Octopus: animalChar = "O"; break;
-	case Turtle: animalChar = "T"; break;
-	case Walrus: animalChar = "W"; break;
+	case Crab: return "C";
+	case Penguin: return "P";
+	case Octopus: return "O";
+	case Turtle: return "T";
+	case Walrus: return "W";
 	}
-	return animalChar;
+	throw "For some reason this card has no animal"; // To check if there was an error
 }
 
+
 string Card::getBackgroundChar() const {
-	string backgroundChar = "?"; //To check if there was an error
 	switch (background) {
-	case Red: backgroundChar = "r"; break;
-	case Green: backgroundChar = "g"; break;
-	case Purple: backgroundChar = "p"; break;
-	case Blue: backgroundChar = "b"; break;
-	case Yellow: backgroundChar = "y"; break;
+	case Red: return "r";
+	case Green: return "g";
+	case Purple: return "p";
+	case Blue: return "b";
+	case Yellow: return "y";
 	}
-	return backgroundChar;
+	throw "For some reason this card has no background"; //To check if there was an error
 }
 
 string Card::operator()(int row) const {
@@ -33,7 +32,7 @@ string Card::operator()(int row) const {
 	else if (row == 0 || row == 2) {
 		return getBackgroundChar() + getBackgroundChar() + getBackgroundChar();
 	}
-	else { return "The input int row must be 0, 1, or 2"; } // To check if there is any errors
+	else { throw "The input int row must be 0, 1, or 2"; } // To check if there is any errors
 }
 
 Card::operator FaceAnimal() const {
