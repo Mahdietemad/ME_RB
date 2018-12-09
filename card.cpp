@@ -51,10 +51,8 @@ Card::~Card() {}
 using std::cout;
 using std::endl;
 void main() {
-	// Test Card::Card(FaceAnimal _animal, FaceBackground _background)
-	cout << "Testing -> Card::Card(FaceAnimal _animal, FaceBackground _background)" << endl;
-	// Card c = Card(Crab, Red);
-	cout << "The Card constructor is private -> Not sure how to test this" << endl;
-	
+	// The public methods for Card will be tested inside of CardDeck.cpp
+	cout << "The public methods for Card will be tested inside of cardDeck.cpp" << endl;
+
 }
 #endif

@@ -33,6 +33,34 @@ RewardDeck::~RewardDeck() {
 using std::cout;
 using std::endl;
 void main() {
+	// Printing the non-shuffled CardDeck
+	RewardDeck* rewardDeck;
+	rewardDeck = &(rewardDeck->make_RewardDeck());
+	cout << "Printing cards of the non-suffled RewardDeck" << endl;
+	for (int i = 0; i < 7; i++) {
+		Reward* reward = rewardDeck->next();
+		cout << *reward << endl;
+		delete reward;
+	}
+	if (rewardDeck->isEmpty()) {
+		cout << "This RewardDeck is now empty" << endl;
+	}
+	delete rewardDeck;
+
+	// Printing a shuffled CardDeck
+	RewardDeck* rewardDeck;
+	rewardDeck = &(rewardDeck->make_RewardDeck());
+	rewardDeck->shuffle();
+	cout << "Printing cards of a suffled RewardDeck" << endl;
+	for (int i = 0; i < 7; i++) {
+		Reward* reward = rewardDeck->next();
+		cout << *reward << endl;
+		delete reward;
+	}
+	if (rewardDeck->isEmpty()) {
+		cout << "This RewardDeck is now empty" << endl;
+	}
+	delete rewardDeck;
 
 }
 #endif

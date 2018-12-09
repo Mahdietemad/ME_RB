@@ -15,7 +15,8 @@ Reward::~Reward() {}
 
 #define TEST_REWARD (0)
 #if TEST_REWARD
-
-
-
+void main() {
+	// // The public methods for Reward will be tested inside of rewardDeck.cpp
+	cout << "The public methods for Reward will be tested inside of rewardDeck.cpp" << endl;
+}
 #endif

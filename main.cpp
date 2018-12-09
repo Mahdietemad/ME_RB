@@ -2,20 +2,30 @@
 #include "rules.h"
 #include "rewardDeck.h"
 
+#include <stdlib.h>
+
 using std::string;
 using std::exception;
 
-//tesing main
+// Method to clear screen for main
+void clearScreen() {
+	cout << "Press enter to continue";
+	cin.ignore();
+	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+}
 
+// Meromarrr! 
 int main() {
-	cout<<"------------1----------"<<endl; //ignore
-
-	//Initialize game/rules and other variables
+	// Initialize game/rules and other variables
 	int expertDisplay;
 	int expertRules;
-	Game game;
-	Rules rules;
+	Game game = Game();
+	Rules rules = Rules();
 	vector<Player*> players;
+
+	// Introduces the game
+	cout << "Welcome to the game of Meromarrr!" << endl;
+	cout << "Please refer to the 'CSI 2372 Project Fall 2018' document for rules on how to play!" << endl;
 
 	// Enter the display
 	cout << "Choose the display mode:" << endl;
@@ -39,17 +49,19 @@ int main() {
         cout<<"Please enter the number of players: "<<endl;
         cin>>numberOfPlayers;
 		if (numberOfPlayers<2){
-			cout<<"Minimum of 2 players required";
+			cout<<"Minimum of 2 players required" << endl;
         }
         else if(numberOfPlayers>4){
-			cout<<"Maximum of 4 players required";
+			cout<<"Maximum of 4 players required" << endl;
         }             
 		else {
 			playerFlag = false;
 		}
+		cout << endl;
     }
 
 	// Create the Players and add them to the game
+	cout << "Please enter the name of each player" << endl;
 	for (int i = 0; i < numberOfPlayers; i++) {
 		string name;
 		cout << "Player " << i + 1 << ": ";
@@ -58,10 +70,18 @@ int main() {
 		players.push_back(player);
 		game.addPlayer(*player);
 	}
+	cout << endl;
+	clearScreen();
 
 	// Print the game
-	cout << endl;
+	if (expertDisplay) {
+		cout << "The board will appear empty since you chose the expert display mode" << endl;
+	}
+	else {
+		cout << "Below is the board and the players" << endl;
+	}
 	cout << game << endl;
+	clearScreen();
     
 	// Initialize the current player and reward deck
 	Player* currPlayer = players[0];
@@ -99,20 +119,25 @@ int main() {
 				game.setCurrentCard(card1);
 				game.setCurrentCard(card2);
 				game.setCurrentCard(card3);
+				cout << "The cards are temperarily revealed below for " << players[i]->getName() << endl;
 				cout << game << endl;
+				clearScreen();
 				game.reset();
 			}
 		}
 		// Initalize game variables
-		int numTurns = 0;
+		int numTurns = 1;
 		Letter blockedLetter = C;
 		Number blockedNumber = Three;
 		while(rules.roundOver(game) == false){
 			// Initlize round variables
+			cout << "Round Number: " << game.getRound() << endl;
+			cout << "Turn Number: " << numTurns << endl;
+			cout << game << endl;
+			cout << "Current turn: " + currPlayer->getName() << endl;
 			bool inputFlag = true;
-			string userInput;
 			while (inputFlag) {
-				cout << "Current turn: " + currPlayer->getName() << endl;
+				string userInput;
 				cout << "Please select a card to turn face up" << endl;
 				cin >> userInput;
 				Letter userLetter = game.stringtoLetter(userInput[0]);
@@ -258,3 +283,5 @@ int main() {
 
 	return 0;
 }
+
+

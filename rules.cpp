@@ -25,10 +25,9 @@ bool Rules::gameOver(const Game& game) {
 bool Rules::roundOver(const Game& game) {
 	int activePlayers = 0;
 	for (int i = 0; i < int(game.players.size()); i++) {
-		if (&game.getPlayer(Side(i)) != nullptr) {
-			Player* p = &game.getPlayer(Side(i));
-			if (p->isActive()) { activePlayers++; }
-		}
+		Player* p = &game.getPlayer(Side(i));
+		if (p->isActive()) { activePlayers++; }
+
 	}
 	if (activePlayers < 2) { return true; }
 	else { return false; }
